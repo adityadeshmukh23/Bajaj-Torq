@@ -7,7 +7,7 @@
 
 ---
 
-## ⚠️ Scope and methodology
+##  Scope and methodology
 
 **This repository documents and presents a completed design analysis.**
 
@@ -140,7 +140,7 @@ ones are collected in [`docs/09-limitations.md`](docs/09-limitations.md):
 
 ## Author
 
-**Aditya Deshmukh** — [TODO: add year / degree / institution]
+**Aditya Deshmukh** — BTech MSE , IIT Kanpur
 
 Team **Blue Popcorn**: Aditya Deshmukh (Team Leader), Ankit Kumar, Akshat Singhania.
 
