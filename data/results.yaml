@@ -1,0 +1,131 @@
+# Bajaj-Torq — documented design results
+#
+# PROVENANCE: every value in this file was derived analytically by hand and is
+# transcribed from the TORQ 2026 design deck and technical report. Nothing here
+# was produced by a live solver, and no value originates from physical testing.
+# Values that could not be sourced are marked "[TODO: confirm value]".
+
+schema_version: 1
+
+provenance:
+  method: hand-calculation
+  computed_live: false
+  physically_tested: false
+  source_documents:
+    - CBS design deck (TORQ 2026)
+    - Technical analysis report (Team Blue Popcorn)
+
+# ---------------------------------------------------------------------------
+vehicle:
+  laden_mass:      {value: 150,  unit: kg,   note: rider + vehicle}
+  wheelbase:       {value: 1.40, unit: m}
+  cg_height:       {value: 0.60, unit: m}
+  static_split:    {value: "50:50", unit: "front:rear", note: implied by stated dynamic split}
+  test_speed:      {value: 60,   unit: km/h}
+
+# ---------------------------------------------------------------------------
+braking_dynamics:
+  weight_transfer:
+    formula:      "dW = m * a * h / L"
+    substitution: "(150 * 6.12 * 0.60) / 1.40 = 550.8 / 1.40"
+    result:       {value: 393, unit: N, note: forward load transfer at peak deceleration}
+  dynamic_load_distribution:
+    front:        {value: 76.7, unit: percent}
+    rear:         {value: 23.3, unit: percent}
+    at_deceleration: {value: 6.12, unit: m/s^2}
+  peak_mfdd:      {value: 6.12, unit: m/s^2, note: analytically calculated}
+  stopping_distance: {value: 28.7, unit: m, note: per IS 14664 protocol, includes brake build-up phase}
+  lever_force:    {value: 180, unit: N}
+  cam_force:      {value: 612, unit: N, note: from design deck schematic; Hertzian analysis uses 600 N}
+
+# ---------------------------------------------------------------------------
+cam_profile:
+  low_braking_ratio:   {value: "65:35", unit: "front:rear", note: comfort regime}
+  high_braking_ratio:  {value: "72:28", unit: "front:rear", note: safety regime}
+  transition:          "continuous polynomial, no discrete steps"
+  polynomial_order:    "[TODO: confirm value]"
+
+# ---------------------------------------------------------------------------
+contact_stress:
+  formula:      "p_max = sqrt(F * E' / (pi * L * R*))"
+  inputs:
+    F:  {value: 600,  unit: N}
+    E_equivalent: {value: 3.37, unit: GPa, note: POM on EN31}
+    R_equivalent: {value: 7.5,  unit: mm}
+    L:  {value: 15,   unit: mm}
+  substitution: "sqrt(600 * 3.37e9 / (pi * 0.015 * 0.0075))"
+  result:       {value: 75.6, unit: MPa}
+  allowable:    {value: 110,  unit: MPa, note: POM allowable compressive limit}
+  safety_factor: {value: 1.46}
+
+# ---------------------------------------------------------------------------
+fatigue_life:
+  design_life:  {value: 50000, unit: km, note: analytically calculated, not field measured}
+  cam_disc:
+    material:       EN31, through-hardened 58-62 HRC
+    regime:         "high-cycle (> 1e6 cycles)"
+    condition:      "contact stress below endurance limit"
+    safety_factor:  "[TODO: confirm value — source states both 2.0 and 6.0]"
+  followers:
+    material:   POM
+    wear_life:  {value: 1.0e6, unit: cycles, note: stated as "> 1e6 cycles"}
+  housing:
+    material:       "[TODO: confirm — source states both die-cast and Al 6061-T6]"
+    yield_strength: {value: 275, unit: MPa}
+    peak_stress:    "below 50% of yield"
+    safety_factor:  "[TODO: confirm value — source states both >2.5 and 5.75]"
+  cycles_per_km:    "[TODO: confirm value — km-to-cycles conversion not stated in source]"
+
+# ---------------------------------------------------------------------------
+cost:
+  bom_gross:        {value: 625, unit: INR, note: sum of line items in data/bom.csv}
+  bom_net:          {value: 510, unit: INR, note: after batch discounts}
+  target_ceiling:   {value: 600, unit: INR}
+  tooling_total:    {value: 280000, unit: INR}
+  tooling_volume:   {value: 10000, unit: units}
+  tooling_per_unit: {value: 28, unit: INR, note: 280000 / 10000}
+  cost_per_mfdd:    {value: 83, unit: INR per m/s^2, note: 510 / 6.12}
+
+market:
+  addressable_units_2026: {value: 600000, unit: units}
+  target_capture:         {value: 2.5,    unit: percent}
+  target_volume:          {value: 15000,  unit: units/year}
+  projected_revenue:      {value: 7650000, unit: INR, note: "[TODO: confirm — computed as 15000 x 510, i.e. at unit cost rather than selling price]"}
+  gross_margin:           {value: 35, unit: percent}
+  gross_margin_value:     {value: 2680000, unit: INR}
+  roi_year_2:             {value: 108, unit: percent}
+
+manufacturing:
+  part_count:         {value: 12, unit: parts}
+  assembly_yield:     {value: 98, unit: percent}
+  assembly_time:      {value: 50, unit: minutes}
+  machining:          "standard 3-axis CNC, no 5-axis dependency"
+  annual_capacity:    {value: 18000, unit: units/year, note: 2 CNC machines}
+
+# ---------------------------------------------------------------------------
+compliance:
+  standard: IS 14664:2010
+  category: "3-3 (CBS, 60 km/h)"
+  requirements:
+    min_mfdd:            {value: 5.4,  unit: m/s^2}
+    max_stopping_distance: {value: 31.6, unit: m}
+    max_lever_force:     {value: 200,  unit: N, note: implied by stated 10% margin at 180 N}
+    min_secondary_brake: {value: 2.5,  unit: m/s^2, note: Clause 4.1.9}
+  secondary_brake:
+    front_only: {value: 4.4, unit: m/s^2}
+    rear_only:  {value: 2.9, unit: m/s^2}
+
+maintenance_schedule:
+  - {interval_km: 10000, action: "visual cable inspection, lever travel verification"}
+  - {interval_km: 20000, action: "grease replenishment, follower wear measurement"}
+  - {interval_km: 50000, action: "full system replacement (design life limit)"}
+
+# ---------------------------------------------------------------------------
+market_context:
+  india_e2w_sales_2025:      {value: 1280000, unit: units}
+  observed_deceleration:     {value: "4.2-4.5", unit: m/s^2, note: entry-level electric two-wheelers}
+  observed_stopping_distance: {value: "35-36",  unit: m}
+  shortfall_vs_regulation:   {value: "18-22",   unit: percent}
+
+references:
+  - "Lin et al., 2021 — variable CBS reported 6.37 m/s^2 MFDD (literature benchmark)"

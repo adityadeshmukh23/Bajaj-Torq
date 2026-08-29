@@ -1,0 +1,6 @@
+architecture,mfdd_ms2,mfdd_note,unit_cost_inr,cost_per_ms2_inr,maintenance_interval_km,primary_failure_mode,system_complexity
+This CBS,6.12,analytically calculated,510,83,10000,Mechanical wear,Low
+Hydraulic CBS,6.5,industry typical (6.5-6.8),2800,431,5000,Fluid leak / seal failure,Medium
+Basic drum,4.2,near regulatory minimum,1000,238,8000,Lining wear,Very low
+Electronic CBS,7.0,industry typical (7.0-7.5),4200,[TODO: confirm value],15000,Sensor / ECU failure,High
+ABS,7.2,industry typical,5500,764,[TODO: confirm value],Sensor / ECU failure,High

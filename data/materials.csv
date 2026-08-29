@@ -1,0 +1,11 @@
+material,application,property,value,unit,source
+EN31 bearing steel,Cam disc,Hardness (through-hardened),58-62,HRC,CBS design deck
+EN31 bearing steel,Cam disc,Microstructure,Tempered martensite,-,CBS design deck
+POM (acetal),Followers,Allowable compressive stress,110,MPa,CBS design deck
+POM (acetal),Followers,Peak Hertzian contact stress (design),75.6,MPa,CBS design deck
+Aluminium (housing),Housing,Yield strength,275,MPa,CBS design deck (stated as Al 6061-T6)
+POM on EN31,Contact pair,Equivalent elastic modulus E',3.37,GPa,CBS design deck
+POM on EN31,Contact pair,Equivalent contact radius R*,7.5,mm,CBS design deck
+POM on EN31,Contact pair,Contact length L,15,mm,CBS design deck
+POM on EN31,Contact pair,Applied contact force F,600,N,CBS design deck
+SS302 stainless,Cables,Tensile strength,[TODO: confirm value],MPa,not stated in source material

@@ -1,0 +1,6 @@
+failure_mode,severity,occurrence,detection,occurrence_x_detection_implied,rpn,mitigation
+Front cable break,9,[TODO: confirm value],[TODO: confirm value],8,72,SS302 cable with periodic inspection
+Cam fatigue crack,10,[TODO: confirm value],[TODO: confirm value],6,60,Through-hardened EN31 (58-62 HRC) with 100% magnetic particle NDT
+Housing fracture,9,[TODO: confirm value],[TODO: confirm value],6,54,Aluminium housing (SF stated as 5.75 in source) anodised
+Rear cable break,7,[TODO: confirm value],[TODO: confirm value],7,49,SS302 cable with periodic inspection
+Spring failure,6,[TODO: confirm value],[TODO: confirm value],7,42,SF = 2.5 with travel limiters

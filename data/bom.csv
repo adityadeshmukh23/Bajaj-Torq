@@ -1,0 +1,9 @@
+item,category,quantity,unit_cost_inr,source
+EN31 hardened cam disc,component,1,220,CBS design deck BOM
+Housing (aluminium),component,1,65,CBS design deck BOM
+Cables (front + rear),component,2,130,CBS design deck BOM
+Lever arm,component,1,85,CBS design deck BOM
+POM followers,component,2,12,CBS design deck BOM
+Spring + hardware,component,1,48,CBS design deck BOM
+Assembly labour,process,1,35,CBS design deck BOM
+Testing + packaging,process,1,30,CBS design deck BOM
